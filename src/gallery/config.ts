@@ -16,5 +16,6 @@ export function parseGalleryConfig(source: string): GalleryConfig {
     excludeFolder: raw.excludeFolder,
     coverField: raw.coverField ?? "cover",
     statusField: raw.statusField,
+    cardWidth: typeof raw.cardWidth === "number" ? raw.cardWidth : undefined,
   };
 }

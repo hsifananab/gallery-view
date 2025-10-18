@@ -6,6 +6,7 @@ export interface GalleryConfig {
   excludeFolder?: string;
   coverField?: string;
   statusField?: string;
+  cardWidth?: number;
 }
 
 export interface GalleryItem {

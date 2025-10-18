@@ -18,6 +18,7 @@ mainTag: films
 typePath: types/Film.md
 excludeFolder: templates
 statusField: watched
+cardWidth: 120
 ```
 ````
 
@@ -33,6 +34,7 @@ mainTag: albums
 typePath: types/Album.md
 coverField: artwork
 statusField: listened
+cardWidth: 140
 ```
 ````
 
@@ -44,6 +46,7 @@ mainTag: ideas
 typePath: types/Idea.md
 excludeFolder: archive
 statusField: status
+cardWidth: 110
 ```
 ````
 
@@ -53,6 +56,7 @@ statusField: status
 - `cover` (frontmatter or inline; honors wiki links) – should be a file path or URL to render.
 - `tags` – optional; tags other than `mainTag` become chips.
 - `statusField` (optional) – controlled by the ◎/✓/✕ segmented control at the end of the tag row. Pick the segment to show all entries, only truthy values, or only falsy values. Defaults to `watched` and accepts booleans or strings such as `true/false`, `yes/no`, or `1/0`.
+- `cardWidth` (optional) – base card width in pixels. Defaults to `120`. The grid adapts around this value while remaining responsive.
 
 ### Hot reloading
 

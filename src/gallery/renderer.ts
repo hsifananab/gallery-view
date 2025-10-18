@@ -159,6 +159,7 @@ export class GalleryRenderer {
       const anchor = child as HTMLAnchorElement;
       if (anchor.dataset.path) {
         existingMap.set(anchor.dataset.path, anchor);
+        this.ensureTiltStructure(anchor);
       }
     });
 
@@ -171,7 +172,7 @@ export class GalleryRenderer {
 
     const gap = 6;
     const containerWidth = this.grid.clientWidth || this.grid.getBoundingClientRect().width;
-    const idealCardWidth = 120;
+    const idealCardWidth = Math.max(80, this.config.cardWidth ?? 120);
     const cols = Math.max(1, Math.floor((containerWidth + gap) / (idealCardWidth + gap)));
     const rawWidth = (containerWidth - gap * (cols - 1)) / cols;
     const cardWidth = Math.max(96, Math.floor(rawWidth));
@@ -324,9 +325,21 @@ export class GalleryRenderer {
     );
   }
 
+  private ensureTiltStructure(anchor: HTMLAnchorElement): HTMLElement | null {
+    let wrapper = anchor.querySelector<HTMLElement>(".card-tilt");
+    if (wrapper) return wrapper;
+    const img = anchor.querySelector("img");
+    if (!img) return null;
+    wrapper = document.createElement("div");
+    wrapper.className = "card-tilt";
+    img.replaceWith(wrapper);
+    wrapper.appendChild(img);
+    return wrapper;
+  }
+
   private applyCardTilt(anchor: HTMLAnchorElement): void {
     if (anchor.dataset.tiltBound === "true") return;
-    const wrapper = anchor.querySelector<HTMLElement>(".card-tilt");
+    const wrapper = this.ensureTiltStructure(anchor);
     if (!wrapper) return;
 
     const maxTilt = 9;
