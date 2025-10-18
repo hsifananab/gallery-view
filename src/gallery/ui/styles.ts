@@ -69,20 +69,39 @@ export const GALLERY_CSS = `
     margin-top:12px;
   }
   .film-grid a{
+    position:relative;
     display:block;
     width:100%;
     height:var(--card-height, 180px);
     border-radius:var(--card-radius, 6px);
-    overflow:hidden;
+    perspective:720px;
+    transform-style:preserve-3d;
   }
-  .film-grid a img{
+  .card-tilt{
+    position:relative;
+    width:100%;
+    height:100%;
+    border-radius:inherit;
+    overflow:hidden;
+    background:rgba(0,0,0,0.12);
+    --rx: 0deg;
+    --ry: 0deg;
+    transform:rotateX(var(--rx)) rotateY(var(--ry));
+    transition:transform .18s ease, box-shadow .2s ease, filter .2s ease;
+    box-shadow:0 8px 26px rgba(0,0,0,0.25);
+    will-change:transform;
+  }
+  .film-grid a:hover .card-tilt{
+    box-shadow:0 14px 36px rgba(0,0,0,0.35);
+  }
+  .card-tilt img{
     width:100%;
     height:100%;
     object-fit:cover;
     display:block;
     transition: transform .30s cubic-bezier(.16,1,.3,1);
   }
-  .film-grid a:hover img{ transform: scale(1.05); }
+  .film-grid a:hover .card-tilt img{ transform: scale(1.05); }
   .tag-cloud.is-hovering .tag-chip:not(.active):not(:hover){
     filter: blur(.6px) brightness(.85); opacity:.7;
   }

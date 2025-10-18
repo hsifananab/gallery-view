@@ -187,14 +187,22 @@ export class GalleryRenderer {
       const anchor = document.createElement("a");
       anchor.href = item.file.path;
       anchor.dataset.path = item.file.path;
+      const wrapper = document.createElement("div");
+      wrapper.className = "card-tilt";
       const img = document.createElement("img");
       img.src = item.cover;
       img.loading = "lazy";
-      anchor.appendChild(img);
+      wrapper.appendChild(img);
+      anchor.appendChild(wrapper);
       anchor.style.opacity = "0";
       this.grid.appendChild(anchor);
+      this.applyCardTilt(anchor);
       animateEntrance(anchor, index, cols);
     });
+
+    this.grid
+      .querySelectorAll<HTMLAnchorElement>("a[data-path]")
+      .forEach((anchor) => this.applyCardTilt(anchor));
 
     animateReflow(this.grid, previousRects);
   }
@@ -314,6 +322,36 @@ export class GalleryRenderer {
     void this.render().then(() =>
       requestAnimationFrame(() => this.updateFilterUI()),
     );
+  }
+
+  private applyCardTilt(anchor: HTMLAnchorElement): void {
+    if (anchor.dataset.tiltBound === "true") return;
+    const wrapper = anchor.querySelector<HTMLElement>(".card-tilt");
+    if (!wrapper) return;
+
+    const maxTilt = 9;
+    const update = (rx: number, ry: number) => {
+      wrapper.style.setProperty("--rx", `${rx}deg`);
+      wrapper.style.setProperty("--ry", `${ry}deg`);
+    };
+
+    const handleMove = (event: PointerEvent) => {
+      const rect = anchor.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+      const rotateY = (x - 0.5) * maxTilt * 2;
+      const rotateX = (0.5 - y) * maxTilt * 2;
+      update(rotateX, rotateY);
+    };
+
+    const reset = () => update(0, 0);
+
+    anchor.addEventListener("pointermove", handleMove);
+    anchor.addEventListener("pointerleave", reset);
+    anchor.addEventListener("pointerup", reset);
+    anchor.addEventListener("pointercancel", reset);
+
+    anchor.dataset.tiltBound = "true";
   }
 
   private toBoolean(value: unknown): boolean {
