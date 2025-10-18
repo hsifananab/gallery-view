@@ -1,0 +1,5 @@
+/*
+THIS IS A GENERATED FILE.
+
+If you want to contribute, please edit src/main.ts and run `npm run build`.
+*/

@@ -1,0 +1,10 @@
+{
+  "id": "gallery-view",
+  "name": "Gallery View",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Render interactive galleries of notes filtered by metadata without Dataview.",
+  "author": "Ian Iusov",
+  "authorUrl": "https://github.com/hsifananab",
+  "isDesktopOnly": false
+}
